@@ -1,0 +1,11 @@
+import { z } from "zod";
+const emailSchema = z.string().trim().toLowerCase().email();
+const passwordSchema = z.string().min(10, "Password must be at least 10 characters.");
+export const RegisterSchema = z.object({ email: emailSchema, password: passwordSchema, fullName: z.string().trim().min(1).max(200).optional() });
+export type RegisterInput = z.infer<typeof RegisterSchema>;
+export const LoginSchema = z.object({ email: emailSchema, password: z.string().min(1) });
+export type LoginInput = z.infer<typeof LoginSchema>;
+export const PasswordResetRequestSchema = z.object({ email: emailSchema });
+export type PasswordResetRequestInput = z.infer<typeof PasswordResetRequestSchema>;
+export const PasswordResetConfirmSchema = z.object({ token: z.string().min(1), newPassword: passwordSchema });
+export type PasswordResetConfirmInput = z.infer<typeof PasswordResetConfirmSchema>;
